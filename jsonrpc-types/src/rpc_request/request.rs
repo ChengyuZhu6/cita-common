@@ -122,6 +122,17 @@ macro_rules! define_call {
             }
         }
 
+        impl ResponseResult {
+            pub fn method_name(&self) -> &str {
+                match self {
+                    ResponseResult::Null => "null",
+                    $(
+                        ResponseResult::$enum_name(_) => stringify!($enum_name),
+                    )+
+                }
+            }
+        }
+
         #[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
         #[serde(tag = "method", rename_all = "camelCase")]
         pub enum Call {
